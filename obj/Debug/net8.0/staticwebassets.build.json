@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "21WygBsbxHdrET3it0vCN6EOU2yu9K9FseYKifZgtlQ=",
+  "Source": "InvoiceVerificationApi",
+  "BasePath": "_content/InvoiceVerificationApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
