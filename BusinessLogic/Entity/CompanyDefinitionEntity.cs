@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using InvoiceVerificationApi.Enums;
 
 namespace InvoiceVerificationApi.BusinessLogic.Entity
@@ -19,7 +15,7 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         [Column("payment_term")]
         public int PaymentTerm { get; set; }
         [Column("invoice_unit")]
-        public FaturaBirimi InvoiceUnit { get; set; }
+        public InvoiceUnit InvoiceUnit { get; set; }
         [Column("description")]
         public string? Description { get; set; }
         [Column("created_date")]

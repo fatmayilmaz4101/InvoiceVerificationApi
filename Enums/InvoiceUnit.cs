@@ -1,6 +1,6 @@
 namespace InvoiceVerificationApi.Enums
 {
-    public enum FaturaBirimi
+    public enum InvoiceUnit
     {
         DovizFaturaSatisKuru = 1,
         DovizFaturaAlisKuru,

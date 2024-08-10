@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using InvoiceVerificationApi.Enums;
 
 namespace InvoiceVerificationApi.BusinessLogic.Entity
 {
+    [Table("stock_identification")]
     public class StockIdentificationEntity
     {
         [Column("id")]
@@ -15,11 +13,11 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         [Column("stock_name")]
         public required string StockName { get; set; }
         [Column("unit")]
-        public int Unit { get; set; }
+        public Unit Unit { get; set; }
         [Column("description")]
         public string? Description { get; set; }
         [Column("created_date")]
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
 
     }
