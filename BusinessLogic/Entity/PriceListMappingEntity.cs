@@ -16,8 +16,8 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         public int CompanyDefinitionId { get; set; }
         [Column("date")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-        public StockIdentificationEntity StockIdentification { get; set; } = null!;
-        public CompanyDefinitionEntity CompanyDefinition { get; set; } = null!;
+        public StockListEntity StockList { get; set; } = null!;
+        public CompanyListEntity CompanyList { get; set; } = null!;
         public CompanyPriceListEntity CompanyPriceList { get; set; } = null!;
     }
 }

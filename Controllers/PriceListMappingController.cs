@@ -34,12 +34,12 @@ namespace InvoiceVerificationApi.Controllers
                     {
                         var priceListMapping = new PriceListMappingEntity()
                         {
-                            CompanyDefinition = new CompanyDefinitionEntity()
+                            CompanyList = new CompanyListEntity()
                             {
                                 CompanyAccountCode = string.Empty,
                                 CompanyAccountName = string.Empty,
                             },
-                            StockIdentification = new StockIdentificationEntity()
+                            StockList = new StockListEntity()
                             {
                                 StockCode = string.Empty,
                                 StockName = string.Empty
@@ -48,20 +48,20 @@ namespace InvoiceVerificationApi.Controllers
                         };
                         if (worksheet.Cells[row, 1].Value is string companyAccountCode)
                         {
-                            priceListMapping.CompanyDefinition.CompanyAccountCode = companyAccountCode;
+                            priceListMapping.CompanyList.CompanyAccountCode = companyAccountCode;
                         }
 
                         if (worksheet.Cells[row, 2].Value is string companyAccountName)
                         {
-                            priceListMapping.CompanyDefinition.CompanyAccountName = companyAccountName;
+                            priceListMapping.CompanyList.CompanyAccountName = companyAccountName;
                         }
                         if (worksheet.Cells[row, 3].Value is string stockCode)
                         {
-                            priceListMapping.StockIdentification.StockCode = stockCode;
+                            priceListMapping.StockList.StockCode = stockCode;
                         }
                         if (worksheet.Cells[row, 4].Value is string stockName)
                         {
-                            priceListMapping.StockIdentification.StockName = stockName;
+                            priceListMapping.StockList.StockName = stockName;
                         }
                         if (worksheet.Cells[row, 5].Value is double unitPrice)
                         {
@@ -69,7 +69,7 @@ namespace InvoiceVerificationApi.Controllers
                         }
                         if (worksheet.Cells[row, 6].Value is string strUnit && Enum.Parse<Unit>(strUnit) is Unit unit)
                         {
-                            priceListMapping.StockIdentification.Unit = unit;
+                            priceListMapping.StockList.Unit = unit;
                         }
                         if (worksheet.Cells[row, 7].Value is string strCurrencyType && Enum.Parse<CurrencyType>(strCurrencyType) is CurrencyType currencyType)
                         {
@@ -77,27 +77,27 @@ namespace InvoiceVerificationApi.Controllers
                         }
                         if (worksheet.Cells[row, 8].Value is int paymentTerm)
                         {
-                            priceListMapping.CompanyDefinition.PaymentTerm = paymentTerm;
+                            priceListMapping.CompanyList.PaymentTerm = paymentTerm;
                         }
                         if (worksheet.Cells[row, 9].Value is string strInvoiceUnit && Enum.Parse<InvoiceUnit>(strInvoiceUnit) is InvoiceUnit invoiceUnit)
                         {
-                            priceListMapping.CompanyDefinition.InvoiceUnit = invoiceUnit;
+                            priceListMapping.CompanyList.InvoiceUnit = invoiceUnit;
                         }
                         if (worksheet.Cells[row, 10].Value is string description)
                         {
-                            priceListMapping.CompanyDefinition.Description = description;
+                            priceListMapping.CompanyList.Description = description;
                         }
 
-                        var company = await context.CompanyDefinitions.FirstOrDefaultAsync(x => x.CompanyAccountCode == priceListMapping.CompanyDefinition.CompanyAccountCode);
+                        var company = await context.CompanyLists.FirstOrDefaultAsync(x => x.CompanyAccountCode == priceListMapping.CompanyList.CompanyAccountCode);
                         if (company is not null)
                         {
-                            priceListMapping.CompanyDefinition = null!;
+                            priceListMapping.CompanyList = null!;
                             priceListMapping.CompanyDefinitionId = company.Id;
                         };
-                        var stock = await context.StockIdentifications.FirstOrDefaultAsync(x => x.StockCode == priceListMapping.StockIdentification.StockCode);
+                        var stock = await context.StockLists.FirstOrDefaultAsync(x => x.StockCode == priceListMapping.StockList.StockCode);
                         if (stock is not null)
                         {
-                            priceListMapping.StockIdentification = null!;
+                            priceListMapping.StockList = null!;
                             priceListMapping.StockIdentificationId = stock.Id;
                         }
                         var companyPriceList = await context.PriceListMappings.FirstOrDefaultAsync(x => x.StockIdentificationId == priceListMapping.StockIdentificationId && x.CompanyDefinitionId == priceListMapping.CompanyDefinitionId);

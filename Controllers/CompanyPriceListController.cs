@@ -13,8 +13,8 @@ namespace InvoiceVerificationApi.Controllers
         public async Task<ActionResult<GetCompanyPriceListResponse>> Get()
         {
             var companyPriceLists = await context.PriceListMappings
-            .Include(x => x.CompanyDefinition)
-            .Include(x => x.StockIdentification)
+            .Include(x => x.CompanyList)
+            .Include(x => x.StockList)
             .Include(x => x.CompanyPriceList)
             .AsNoTracking()
             .ToListAsync();

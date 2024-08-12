@@ -10,13 +10,13 @@ namespace InvoiceVerificationApi.Controllers
     //primary constructor 
     //IEnumerable yerine liste tercih et perf farkı var(geri dönüs değeri)
     //AsNoTracking
-    public class StockIdentificationController(AppDbContext context) : ControllerBase
+    public class StockListController(AppDbContext context) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<GetStockIdentificationResponse>> Get()
+        public async Task<ActionResult<GetStockListResponse>> Get()
         {
-            var stockIdentifications = await context.StockIdentifications.AsNoTracking().ToListAsync();
-            return Ok(new GetStockIdentificationResponse(stockIdentifications));
+            var stockLists = await context.StockLists.AsNoTracking().ToListAsync();
+            return Ok(new GetStockListResponse(stockLists));
         }
 
     }

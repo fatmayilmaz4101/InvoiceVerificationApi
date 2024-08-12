@@ -6,16 +6,16 @@ namespace InvoiceVerificationApi.DataAccess
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        public DbSet<CompanyDefinitionEntity> CompanyDefinitions { get; set; }
+        public DbSet<CompanyListEntity> CompanyLists { get; set; }
         public DbSet<CompanyPriceListEntity> CompanyPriceLists { get; set; }
-        public DbSet<StockIdentificationEntity> StockIdentifications { get; set; }
+        public DbSet<StockListEntity> StockLists{ get; set; }
         public DbSet<PriceListMappingEntity> PriceListMappings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CompanyDefinitionEntity>()
+            modelBuilder.Entity<CompanyListEntity>()
             .HasOne(x => x.PriceListMapping)
-            .WithOne(x => x.CompanyDefinition)
+            .WithOne(x => x.CompanyList)
             .HasForeignKey<PriceListMappingEntity>(x => x.CompanyDefinitionId);
 
             modelBuilder.Entity<CompanyPriceListEntity>()
@@ -23,9 +23,9 @@ namespace InvoiceVerificationApi.DataAccess
             .WithOne(x => x.CompanyPriceList)
             .HasForeignKey<PriceListMappingEntity>(x => x.CompanyPriceListId);
 
-            modelBuilder.Entity<StockIdentificationEntity>()
+            modelBuilder.Entity<StockListEntity>()
             .HasOne(x => x.PriceListMapping)
-            .WithOne(x => x.StockIdentification)
+            .WithOne(x => x.StockList)
             .HasForeignKey<PriceListMappingEntity>(x => x.StockIdentificationId);
 
             base.OnModelCreating(modelBuilder);

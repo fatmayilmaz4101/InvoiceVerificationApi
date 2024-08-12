@@ -3,17 +3,19 @@ using InvoiceVerificationApi.Enums;
 
 namespace InvoiceVerificationApi.BusinessLogic.Entity
 {
-    [Table("stock_identification")]
-    public class StockIdentificationEntity
+    [Table("company_list")]
+    public class CompanyListEntity
     {
         [Column("id")]
         public int Id { get; set; }
-        [Column("stock_code")]
-        public required string StockCode { get; set; }
-        [Column("stock_name")]
-        public required string StockName { get; set; }
-        [Column("unit")]
-        public Unit Unit { get; set; }
+        [Column("company_account_code")]
+        public required string CompanyAccountCode { get; set; }
+        [Column("company_account_name")]
+        public required string CompanyAccountName { get; set; }
+        [Column("payment_term")]
+        public int PaymentTerm { get; set; }
+        [Column("invoice_unit")]
+        public InvoiceUnit InvoiceUnit { get; set; }
         [Column("description")]
         public string? Description { get; set; }
         [Column("created_date")]

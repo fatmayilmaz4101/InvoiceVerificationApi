@@ -8,7 +8,7 @@ using InvoiceVerificationApi.BusinessLogic.Entity;
 namespace InvoiceVerificationApi.Contract.Request
 {
  //DataAnnotations
-    public class PostStockIdentificationRequest
+    public class PostStockListRequest
     {
 
     };
