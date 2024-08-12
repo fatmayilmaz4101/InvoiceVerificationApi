@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using InvoiceVerificationApi.Enums;
 
 namespace InvoiceVerificationApi.BusinessLogic.Entity
 {
@@ -11,11 +12,11 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         [Column("unit_price")]
         public double UnitPrice { get; set; }
         [Column("currency_type")]
-        public required string CurrencyType { get; set; }
-        [Column("description")]
-        public string? Description { get; set; }
+        public CurrencyType CurrencyType { get; set; }
+        // [Column("description")]
+        // public string? Description { get; set; }
         [Column("created_date")]
-        public DateTime CreatedDate { get; set; }
-
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public PriceListMappingEntity PriceListMapping { get; set; } = null!;
     }
 }
