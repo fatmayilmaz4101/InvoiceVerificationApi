@@ -3,15 +3,15 @@ using InvoiceVerificationApi.Enums;
 
 namespace InvoiceVerificationApi.BusinessLogic.Entity
 {
-    [Table("stock_list")]
-    public class StockListEntity
+    [Table("article_list")]
+    public class ArticleListEntity
     {
         [Column("id")]
         public int Id { get; set; }
-        [Column("stock_code")]
-        public required string StockCode { get; set; }
-        [Column("stock_name")]
-        public required string StockName { get; set; }
+        [Column("article_code")]
+        public required string ArticleCode { get; set; }
+        [Column("article_name")]
+        public required string ArticleName { get; set; }
         [Column("unit")]
         public Unit Unit { get; set; }
         [Column("description")]

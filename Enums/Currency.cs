@@ -1,7 +1,7 @@
 
 namespace InvoiceVerificationApi.Enums
 {
-    public enum CurrencyType
+    public enum Currency
     {
         TRY = 1,
         USD

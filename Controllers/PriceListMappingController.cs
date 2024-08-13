@@ -4,7 +4,6 @@ using InvoiceVerificationApi.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
-
 namespace InvoiceVerificationApi.Controllers
 {
     [ApiController]
@@ -36,32 +35,32 @@ namespace InvoiceVerificationApi.Controllers
                         {
                             CompanyList = new CompanyListEntity()
                             {
-                                CompanyAccountCode = string.Empty,
-                                CompanyAccountName = string.Empty,
+                                CompanyCode = string.Empty,
+                                CompanyName = string.Empty,
                             },
-                            StockList = new StockListEntity()
+                            ArticleList = new ArticleListEntity()
                             {
-                                StockCode = string.Empty,
-                                StockName = string.Empty
+                                ArticleCode = string.Empty,
+                                ArticleName = string.Empty
                             },
                             CompanyPriceList = new CompanyPriceListEntity()
                         };
-                        if (worksheet.Cells[row, 1].Value is string companyAccountCode)
+                        if (worksheet.Cells[row, 1].Value is string companyCode)
                         {
-                            priceListMapping.CompanyList.CompanyAccountCode = companyAccountCode;
+                            priceListMapping.CompanyList.CompanyCode = companyCode;
                         }
 
-                        if (worksheet.Cells[row, 2].Value is string companyAccountName)
+                        if (worksheet.Cells[row, 2].Value is string companyName)
                         {
-                            priceListMapping.CompanyList.CompanyAccountName = companyAccountName;
+                            priceListMapping.CompanyList.CompanyName = companyName;
                         }
-                        if (worksheet.Cells[row, 3].Value is string stockCode)
+                        if (worksheet.Cells[row, 3].Value is string articleCode)
                         {
-                            priceListMapping.StockList.StockCode = stockCode;
+                            priceListMapping.ArticleList.ArticleCode = articleCode;
                         }
-                        if (worksheet.Cells[row, 4].Value is string stockName)
+                        if (worksheet.Cells[row, 4].Value is string articleName)
                         {
-                            priceListMapping.StockList.StockName = stockName;
+                            priceListMapping.ArticleList.ArticleName = articleName;
                         }
                         if (worksheet.Cells[row, 5].Value is double unitPrice)
                         {
@@ -69,38 +68,38 @@ namespace InvoiceVerificationApi.Controllers
                         }
                         if (worksheet.Cells[row, 6].Value is string strUnit && Enum.Parse<Unit>(strUnit) is Unit unit)
                         {
-                            priceListMapping.StockList.Unit = unit;
+                            priceListMapping.ArticleList.Unit = unit;
                         }
-                        if (worksheet.Cells[row, 7].Value is string strCurrencyType && Enum.Parse<CurrencyType>(strCurrencyType) is CurrencyType currencyType)
+                        if (worksheet.Cells[row, 7].Value is string strCurrency && Enum.Parse<Currency>(strCurrency) is Currency currency)
                         {
-                            priceListMapping.CompanyPriceList.CurrencyType = currencyType;
+                            priceListMapping.CompanyPriceList.Currency = currency;
                         }
                         if (worksheet.Cells[row, 8].Value is int paymentTerm)
                         {
                             priceListMapping.CompanyList.PaymentTerm = paymentTerm;
                         }
-                        if (worksheet.Cells[row, 9].Value is string strInvoiceUnit && Enum.Parse<InvoiceUnit>(strInvoiceUnit) is InvoiceUnit invoiceUnit)
+                        if (worksheet.Cells[row, 9].Value is string strInvoiceCurrency && Enum.Parse<InvoiceCurrency>(strInvoiceCurrency) is InvoiceCurrency invoiceCurrency)
                         {
-                            priceListMapping.CompanyList.InvoiceUnit = invoiceUnit;
+                            priceListMapping.CompanyList.InvoiceCurrency = invoiceCurrency;
                         }
                         if (worksheet.Cells[row, 10].Value is string description)
                         {
                             priceListMapping.CompanyList.Description = description;
                         }
 
-                        var company = await context.CompanyLists.FirstOrDefaultAsync(x => x.CompanyAccountCode == priceListMapping.CompanyList.CompanyAccountCode);
+                        var company = await context.CompanyLists.FirstOrDefaultAsync(x => x.CompanyCode == priceListMapping.CompanyList.CompanyCode);
                         if (company is not null)
                         {
                             priceListMapping.CompanyList = null!;
-                            priceListMapping.CompanyDefinitionId = company.Id;
+                            priceListMapping.CompanyListId = company.Id;
                         };
-                        var stock = await context.StockLists.FirstOrDefaultAsync(x => x.StockCode == priceListMapping.StockList.StockCode);
-                        if (stock is not null)
+                        var article = await context.ArticleLists.FirstOrDefaultAsync(x => x.ArticleCode == priceListMapping.ArticleList.ArticleCode);
+                        if (article is not null)
                         {
-                            priceListMapping.StockList = null!;
-                            priceListMapping.StockIdentificationId = stock.Id;
+                            priceListMapping.ArticleList = null!;
+                            priceListMapping.ArticleListId = article.Id;
                         }
-                        var companyPriceList = await context.PriceListMappings.FirstOrDefaultAsync(x => x.StockIdentificationId == priceListMapping.StockIdentificationId && x.CompanyDefinitionId == priceListMapping.CompanyDefinitionId);
+                        var companyPriceList = await context.PriceListMappings.FirstOrDefaultAsync(x => x.ArticleListId == priceListMapping.ArticleListId && x.CompanyListId == priceListMapping.CompanyListId);
                         if (companyPriceList is not null)
                         {
                             continue;

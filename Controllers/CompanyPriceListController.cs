@@ -14,7 +14,7 @@ namespace InvoiceVerificationApi.Controllers
         {
             var companyPriceLists = await context.PriceListMappings
             .Include(x => x.CompanyList)
-            .Include(x => x.StockList)
+            .Include(x => x.ArticleList)
             .Include(x => x.CompanyPriceList)
             .AsNoTracking()
             .ToListAsync();

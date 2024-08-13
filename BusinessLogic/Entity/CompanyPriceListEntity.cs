@@ -11,8 +11,8 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         public int Id { get; set; }
         [Column("unit_price")]
         public double UnitPrice { get; set; }
-        [Column("currency_type")]
-        public CurrencyType CurrencyType { get; set; }
+        [Column("currency")]
+        public Currency Currency { get; set; }
         // [Column("description")]
         // public string? Description { get; set; }
         [Column("created_date")]
