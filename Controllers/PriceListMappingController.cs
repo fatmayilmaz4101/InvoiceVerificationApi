@@ -40,7 +40,7 @@ namespace InvoiceVerificationApi.Controllers
                             },
                             ArticleList = new ArticleListEntity()
                             {
-                                ArticleCode = string.Empty,
+                                ArticleNo = string.Empty,
                                 ArticleName = string.Empty
                             },
                             CompanyPriceList = new CompanyPriceListEntity()
@@ -54,9 +54,9 @@ namespace InvoiceVerificationApi.Controllers
                         {
                             priceListMapping.CompanyList.CompanyName = companyName;
                         }
-                        if (worksheet.Cells[row, 3].Value is string articleCode)
+                        if (worksheet.Cells[row, 3].Value is string articleNo)
                         {
-                            priceListMapping.ArticleList.ArticleCode = articleCode;
+                            priceListMapping.ArticleList.ArticleNo = articleNo;
                         }
                         if (worksheet.Cells[row, 4].Value is string articleName)
                         {
@@ -93,7 +93,7 @@ namespace InvoiceVerificationApi.Controllers
                             priceListMapping.CompanyList = null!;
                             priceListMapping.CompanyListId = company.Id;
                         };
-                        var article = await context.ArticleLists.FirstOrDefaultAsync(x => x.ArticleCode == priceListMapping.ArticleList.ArticleCode);
+                        var article = await context.ArticleLists.FirstOrDefaultAsync(x => x.ArticleNo == priceListMapping.ArticleList.ArticleNo);
                         if (article is not null)
                         {
                             priceListMapping.ArticleList = null!;

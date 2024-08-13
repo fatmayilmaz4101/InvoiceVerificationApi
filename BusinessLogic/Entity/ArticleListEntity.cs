@@ -8,8 +8,8 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
     {
         [Column("id")]
         public int Id { get; set; }
-        [Column("article_code")]
-        public required string ArticleCode { get; set; }
+        [Column("article_no")]
+        public required string ArticleNo { get; set; }
         [Column("article_name")]
         public required string ArticleName { get; set; }
         [Column("unit")]
