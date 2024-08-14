@@ -19,7 +19,7 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         [Column("description")]
         public string? Description { get; set; }
         [Column("created_date")]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
         public PriceListMappingEntity PriceListMapping { get; set; } = null!;
     }
 }
