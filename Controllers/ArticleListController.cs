@@ -11,36 +11,38 @@ namespace InvoiceVerificationApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CompanyListController(AppDbContext context) : ControllerBase
+    //primary constructor 
+    //IEnumerable yerine liste tercih et perf farkı var(geri dönüs değeri)
+    //AsNoTracking
+    public class ArticleListController(AppDbContext context) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<GetCompanyListResponse>> Get()
+        public async Task<ActionResult<GetArticleListResponse>> Get()
         {
-            var companyLists = await context.CompanyLists.AsNoTracking().ToListAsync();
+            var articleLists = await context.ArticleLists.AsNoTracking().ToListAsync();
             var options = new JsonSerializerOptions
             {
                 ReferenceHandler = ReferenceHandler.IgnoreCycles,
                 WriteIndented = true
             };
-            string json = JsonSerializer.Serialize(companyLists, options);
+            string json = JsonSerializer.Serialize(articleLists, options);
             return Ok(json);
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostCompanyListRequest company)
+        public async Task<IActionResult> Post([FromBody] PostArticleListRequest article)
         {
-            if (company is null)
+            if (article is null)
             {
                 return BadRequest("Invalid data.");
             }
             else
             {
-                await context.CompanyLists.AddAsync(new CompanyListEntity()
+                await context.ArticleLists.AddAsync(new ArticleListEntity()
                 {
-                    CompanyCode = company.CompanyCode,
-                    CompanyName = company.CompanyName,
-                    PaymentTerm = company.PaymentTerm,
-                    InvoiceCurrency = company.InvoiceCurrency,
-                    Description = company.Description,
+                    ArticleNo = article.ArticleNo,
+                    ArticleName = article.ArticleName,
+                    Unit = article.Unit,
+                    Description = article.Description,
                     CreatedDate = DateTime.UtcNow
                 });
                 await context.SaveChangesAsync();

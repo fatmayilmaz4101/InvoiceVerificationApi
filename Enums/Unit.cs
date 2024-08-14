@@ -2,8 +2,12 @@ namespace InvoiceVerificationApi.Enums
 {
     public enum Unit
     {
-        Adet = 1,
-        Kilogram,
-        Litre
+        Pc = 1,
+        M,
+        Sqm,
+        Lm,
+        Pair,
+        Box,
+        Roll
     }
 }

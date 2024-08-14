@@ -13,8 +13,8 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         public double UnitPrice { get; set; }
         [Column("currency")]
         public Currency Currency { get; set; }
-        // [Column("description")]
-        // public string? Description { get; set; }
+         [Column("description")]
+         public string? Description { get; set; }
         [Column("created_date")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public PriceListMappingEntity PriceListMapping { get; set; } = null!;
