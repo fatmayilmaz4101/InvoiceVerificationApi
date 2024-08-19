@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using InvoiceVerificationApi.BusinessLogic.Entity;
 using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
@@ -33,7 +31,7 @@ namespace InvoiceVerificationApi.Controllers
                 {
                     ArticleNo = x.ArticleList.ArticleNo,
                     ArticleName = x.ArticleList.ArticleName,
-                    Unit = x.ArticleList.Unit
+                    Unit = x.ArticleList.Unit.ToEnumString()
                 },
                 CompanyList = new CompanyListDto
                 {
@@ -43,7 +41,7 @@ namespace InvoiceVerificationApi.Controllers
                 CompanyPriceList = new CompanyPriceListDto
                 {
                     UnitPrice = x.CompanyPriceList.UnitPrice,
-                    Currency = x.CompanyPriceList.Currency,
+                    Currency = x.CompanyPriceList.Currency.ToEnumString(),
                     Description = x.CompanyPriceList.Description
                 }
             }).ToList();

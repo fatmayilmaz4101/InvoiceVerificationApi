@@ -2,6 +2,7 @@ using InvoiceVerificationApi.BusinessLogic.Entity;
 using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
 using InvoiceVerificationApi.DataAccess;
+using InvoiceVerificationApi.dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,16 @@ namespace InvoiceVerificationApi.Controllers
                 query = query.Where(c => EF.Functions.Like(c.ArticleNo, $"%{articleNo}%"));
             }
             query = query.Skip((page - 1) * 10).Take(10);
-            var articleList = await query.ToListAsync();
+            var articleLists = await query.ToListAsync();
+            var articleList = articleLists.Select(article => new ArticleListDto
+            {
+                ArticleNo = article.ArticleNo,
+                ArticleName = article.ArticleName,
+                Unit = article.Unit.ToString(),  // Enum'ı string olarak dönüştürüyoruz
+                Description = article.Description,
+                CreatedDate = article.CreatedDate
+            }).ToList();
+
             var response = new GetArticleListResponse()
             {
                 TotalCount = totalCount,

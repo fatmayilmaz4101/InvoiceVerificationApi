@@ -17,8 +17,13 @@ namespace InvoiceVerificationApi.Controllers
 
             if (file is null || file.Length is 0)
             {
-                return BadRequest("Failed to load file");
+                return BadRequest("No file uploaded");
             }
+            if (!file.FileName.EndsWith(".xlsx"))
+            {
+                return BadRequest("Invalid file format. Only .xlsx files are allowed.");
+            }
+
             var priceListMappings = new List<PriceListMappingEntity>();
             using (var stream = new MemoryStream())
             {
@@ -84,7 +89,7 @@ namespace InvoiceVerificationApi.Controllers
                         }
                         if (worksheet.Cells[row, 10].Value is string description)
                         {
-                            priceListMapping.CompanyList.Description = description;
+                            priceListMapping.CompanyPriceList.Description = description;
                         }
 
                         var company = await context.CompanyLists.FirstOrDefaultAsync(x => x.CompanyCode == priceListMapping.CompanyList.CompanyCode);

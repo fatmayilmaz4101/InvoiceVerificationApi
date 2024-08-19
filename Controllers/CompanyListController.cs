@@ -2,6 +2,7 @@ using InvoiceVerificationApi.BusinessLogic.Entity;
 using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
 using InvoiceVerificationApi.DataAccess;
+using InvoiceVerificationApi.dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,16 @@ namespace InvoiceVerificationApi.Controllers
                 query = query.Where(c => EF.Functions.Like(c.CompanyCode, $"%{companyCode}%"));
             }
             query = query.Skip((page - 1) * 10).Take(10);
-            var companyList = await query.ToListAsync();
+            var companyLists = await query.ToListAsync();
+            var companyList = companyLists.Select(company => new CompanyListDto
+            {
+                CompanyCode = company.CompanyCode,
+                CompanyName = company.CompanyName,
+                PaymentTerm = company.PaymentTerm,
+                InvoiceCurrency = company.InvoiceCurrency.ToEnumString(),
+                Description = company.Description,
+                CreatedDate = company.CreatedDate
+            }).ToList();
             var response = new GetCompanyListResponse()
             {
                 TotalCount = totalCount,

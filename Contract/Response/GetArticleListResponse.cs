@@ -1,4 +1,5 @@
 using InvoiceVerificationApi.BusinessLogic.Entity;
+using InvoiceVerificationApi.dtos;
 
 namespace InvoiceVerificationApi.Contract.Response
 {
@@ -6,6 +7,6 @@ namespace InvoiceVerificationApi.Contract.Response
     public class GetArticleListResponse
     {
         public int TotalCount { get; set; }
-        public List<ArticleListEntity> ArticleLists { get; set; }
+        public List<ArticleListDto> ArticleLists { get; set; }
     };
 }
