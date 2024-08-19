@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using InvoiceVerificationApi.BusinessLogic.Entity;
 using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
@@ -17,16 +15,22 @@ namespace InvoiceVerificationApi.Controllers
     public class ArticleListController(AppDbContext context) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<GetArticleListResponse>> Get()
+        public async Task<ActionResult<GetArticleListResponse>> Get(int page, string? articleNo)
         {
-            var articleLists = await context.ArticleLists.AsNoTracking().ToListAsync();
-            var options = new JsonSerializerOptions
+            var totalCount = await context.ArticleLists.AsNoTracking().CountAsync();
+            var query = context.ArticleLists.AsNoTracking().AsQueryable();
+            if (articleNo is not null)
             {
-                ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                WriteIndented = true
+                query = query.Where(c => EF.Functions.Like(c.ArticleNo, $"%{articleNo}%"));
+            }
+            query = query.Skip((page - 1) * 10).Take(10);
+            var articleList = await query.ToListAsync();
+            var response = new GetArticleListResponse()
+            {
+                TotalCount = totalCount,
+                ArticleLists = articleList
             };
-            string json = JsonSerializer.Serialize(articleLists, options);
-            return Ok(json);
+            return Ok(response);
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PostArticleListRequest article)

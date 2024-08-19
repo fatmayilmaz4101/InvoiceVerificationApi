@@ -2,5 +2,9 @@ using InvoiceVerificationApi.BusinessLogic.Entity;
 
 namespace InvoiceVerificationApi.Contract.Response
 {
-    public record GetCompanyListResponse(List<CompanyListEntity> CompanyLists);
-};
+    public class GetCompanyListResponse
+    {
+        public int TotalCount { get; set; }
+        public List<CompanyListEntity> CompanyLists { get; set; }
+    }
+}

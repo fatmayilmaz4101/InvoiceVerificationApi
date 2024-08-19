@@ -1,5 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using InvoiceVerificationApi.BusinessLogic.Entity;
+using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
 using InvoiceVerificationApi.DataAccess;
 using InvoiceVerificationApi.dtos;
@@ -13,17 +15,19 @@ namespace InvoiceVerificationApi.Controllers
     public class CompanyPriceListController(AppDbContext context) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<GetCompanyPriceListResponse>> Get()
+        public async Task<ActionResult<GetCompanyPriceListResponse>> Get(int page)
         {
+            var totalCount = await context.CompanyPriceLists.AsNoTracking().CountAsync();
             var companyPriceLists = await context.PriceListMappings
             .Include(x => x.CompanyList)
             .Include(x => x.ArticleList)
             .Include(x => x.CompanyPriceList)
+                .AsNoTracking()
+                .Skip((page - 1) * 10)
+                .Take(10)
+                .ToListAsync();
 
-            .AsNoTracking()
-            .ToListAsync();
-
-            var response = companyPriceLists.Select(x => new GetCompanyPriceListResponse
+            var companyPrice = companyPriceLists.Select(x => new CompanyPriceDto
             {
                 ArticleList = new ArticleListDto
                 {
@@ -43,14 +47,37 @@ namespace InvoiceVerificationApi.Controllers
                     Description = x.CompanyPriceList.Description
                 }
             }).ToList();
-            var options = new JsonSerializerOptions
+            var response = new GetCompanyPriceListResponse
             {
-                ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                WriteIndented = true
+                TotalCount = totalCount,
+                CompanyPriceLists = companyPrice
             };
-            string json = JsonSerializer.Serialize(response, options);
+            return Ok(response);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] PostCompanyPriceListRequest companyPriceRequest)
+        {
+            if (companyPriceRequest is null)
+            {
+                return BadRequest("Invalid data.");
+            }
+            var priceListMapping = new PriceListMappingEntity
+            {
+                ArticleListId = companyPriceRequest.ArticleId,
+                CompanyListId = companyPriceRequest.CompanyId
+            };
+            // await context.PriceListMappings.AddAsync(priceListMapping);
+            await context.CompanyPriceLists.AddAsync(new CompanyPriceListEntity()
+            {
+                UnitPrice = companyPriceRequest.UnitPrice,
+                Currency = companyPriceRequest.Currency,
+                Description = companyPriceRequest.Description,
+                CreatedDate = DateTime.UtcNow,
+                PriceListMapping = priceListMapping
+            });
+            await context.SaveChangesAsync();
 
-            return Ok(json);
+            return Ok("Succesfull");
         }
     }
 }

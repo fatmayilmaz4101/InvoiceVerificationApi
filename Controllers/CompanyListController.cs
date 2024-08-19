@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using InvoiceVerificationApi.BusinessLogic.Entity;
 using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
@@ -14,16 +12,23 @@ namespace InvoiceVerificationApi.Controllers
     public class CompanyListController(AppDbContext context) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<GetCompanyListResponse>> Get()
+        public async Task<ActionResult<GetCompanyListResponse>> Get(int page, string? companyCode)
         {
-            var companyLists = await context.CompanyLists.AsNoTracking().ToListAsync();
-            var options = new JsonSerializerOptions
+            var totalCount = await context.CompanyLists.AsNoTracking().CountAsync();
+            var query = context.CompanyLists.AsNoTracking().AsQueryable();
+            if (companyCode is not null)
             {
-                ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                WriteIndented = true
+                query = query.Where(c => EF.Functions.Like(c.CompanyCode, $"%{companyCode}%"));
+            }
+            query = query.Skip((page - 1) * 10).Take(10);
+            var companyList = await query.ToListAsync();
+            var response = new GetCompanyListResponse()
+            {
+                TotalCount = totalCount,
+                CompanyLists = companyList
             };
-            string json = JsonSerializer.Serialize(companyLists, options);
-            return Ok(json);
+
+            return Ok(response);
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PostCompanyListRequest company)
