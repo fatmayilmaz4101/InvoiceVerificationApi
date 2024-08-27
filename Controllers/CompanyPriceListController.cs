@@ -31,7 +31,10 @@ namespace InvoiceVerificationApi.Controllers
                 {
                     ArticleNo = x.ArticleList.ArticleNo,
                     ArticleName = x.ArticleList.ArticleName,
-                    Unit = x.ArticleList.Unit.ToEnumString()
+                    Unit = x.ArticleList.Unit.ToEnumString(),
+                    MinPrice = x.ArticleList.MinPrice,
+                    MaxPrice = x.ArticleList.MaxPrice,
+                    Cost = x.ArticleList.Cost
                 },
                 CompanyList = new CompanyListDto
                 {

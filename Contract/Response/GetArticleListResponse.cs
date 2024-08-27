@@ -7,6 +7,6 @@ namespace InvoiceVerificationApi.Contract.Response
     public class GetArticleListResponse
     {
         public int TotalCount { get; set; }
-        public List<ArticleListDto> ArticleLists { get; set; }
+        public required List<ArticleListDto> ArticleLists { get; set; }
     };
 }

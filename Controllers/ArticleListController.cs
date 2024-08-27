@@ -32,6 +32,9 @@ namespace InvoiceVerificationApi.Controllers
                 ArticleNo = article.ArticleNo,
                 ArticleName = article.ArticleName,
                 Unit = article.Unit.ToString(),  // Enum'ı string olarak dönüştürüyoruz
+                MinPrice = article.MinPrice,
+                MaxPrice = article.MaxPrice,
+                Cost = article.Cost,
                 Description = article.Description,
                 CreatedDate = article.CreatedDate
             }).ToList();
@@ -57,6 +60,9 @@ namespace InvoiceVerificationApi.Controllers
                     ArticleNo = article.ArticleNo,
                     ArticleName = article.ArticleName,
                     Unit = article.Unit,
+                    MinPrice = article.MinPrice,
+                    MaxPrice = article.MaxPrice,
+                    Cost = article.Cost,
                     Description = article.Description,
                     CreatedDate = DateTime.UtcNow
                 });

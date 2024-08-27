@@ -5,7 +5,7 @@ namespace InvoiceVerificationApi.Contract.Response
     public class GetCompanyPriceListResponse
     {
         public int TotalCount { get; set; }
-        public List<CompanyPriceDto> CompanyPriceLists { get; set; }
+        public required List<CompanyPriceDto> CompanyPriceLists { get; set; }
 
     }
     public class CompanyPriceDto

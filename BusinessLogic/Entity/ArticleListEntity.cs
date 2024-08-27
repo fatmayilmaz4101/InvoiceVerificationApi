@@ -14,6 +14,12 @@ namespace InvoiceVerificationApi.BusinessLogic.Entity
         public required string ArticleName { get; set; }
         [Column("unit")]
         public Unit Unit { get; set; }
+        [Column("min_price")]
+        public double MinPrice { get; set; }
+        [Column("max_price")]
+        public double MaxPrice { get; set; }
+        [Column("cost")]
+        public double Cost { get; set; }
         [Column("description")]
         public string? Description { get; set; }
         [Column("created_date")]
