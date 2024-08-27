@@ -87,7 +87,19 @@ namespace InvoiceVerificationApi.Controllers
                         {
                             priceListMapping.CompanyList.InvoiceCurrency = invoiceCurrency;
                         }
-                        if (worksheet.Cells[row, 10].Value is string description)
+                        if (worksheet.Cells[row, 10].Value is double minPrice)
+                        {
+                            priceListMapping.ArticleList.MinPrice = minPrice;
+                        }
+                        if (worksheet.Cells[row, 11].Value is double maxPrice)
+                        {
+                            priceListMapping.ArticleList.MaxPrice = maxPrice;
+                        }
+                        if (worksheet.Cells[row, 12].Value is double cost)
+                        {
+                            priceListMapping.ArticleList.Cost = cost;
+                        }
+                        if (worksheet.Cells[row, 13].Value is string description)
                         {
                             priceListMapping.CompanyPriceList.Description = description;
                         }
