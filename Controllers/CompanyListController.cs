@@ -25,6 +25,7 @@ namespace InvoiceVerificationApi.Controllers
             var companyLists = await query.ToListAsync();
             var companyList = companyLists.Select(company => new CompanyListDto
             {
+                Id = company.Id,
                 CompanyCode = company.CompanyCode,
                 CompanyName = company.CompanyName,
                 PaymentTerm = company.PaymentTerm,

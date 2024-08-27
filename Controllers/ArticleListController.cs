@@ -28,6 +28,7 @@ namespace InvoiceVerificationApi.Controllers
             var articleLists = await query.ToListAsync();
             var articleList = articleLists.Select(article => new ArticleListDto
             {
+                Id = article.Id,
                 ArticleNo = article.ArticleNo,
                 ArticleName = article.ArticleName,
                 Unit = article.Unit.ToString(),  // Enum'ı string olarak dönüştürüyoruz

@@ -4,6 +4,7 @@ namespace InvoiceVerificationApi.dtos
 {
     public class ArticleListDto
     {
+        public int Id { get; set; }
         public required string ArticleNo { get; set; }
         public required string ArticleName { get; set; }
         public string? Unit { get; set; }
