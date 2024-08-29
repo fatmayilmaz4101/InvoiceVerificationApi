@@ -41,6 +41,12 @@ namespace InvoiceVerificationApi.Controllers
 
             return Ok(response);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetCompanyListResponse>> Get(int id)
+        {
+            var company = await context.CompanyLists.FindAsync(id);
+            return Ok(company);
+        }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PostCompanyListRequest company)
         {

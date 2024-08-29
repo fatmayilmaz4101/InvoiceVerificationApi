@@ -27,6 +27,8 @@ namespace InvoiceVerificationApi.Controllers
 
             var companyPrice = companyPriceLists.Select(x => new CompanyPriceDto
             {
+                Id = x.CompanyPriceList.Id,
+
                 ArticleList = new ArticleListDto
                 {
                     ArticleNo = x.ArticleList.ArticleNo,
@@ -55,6 +57,13 @@ namespace InvoiceVerificationApi.Controllers
             };
             return Ok(response);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetCompanyPriceListResponse>> GetById(int id)
+        {
+            var companyPrice = await context.CompanyPriceLists.FindAsync(id);
+            return Ok(companyPrice);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostCompanyPriceListRequest companyPriceRequest)
         {
