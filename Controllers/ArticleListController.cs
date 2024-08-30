@@ -77,6 +77,10 @@ namespace InvoiceVerificationApi.Controllers
                 return Ok("Succesfull");
             }
         }
+
+
+
+        
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, [FromBody] PutArticleListRequest updatedArticle)
         {

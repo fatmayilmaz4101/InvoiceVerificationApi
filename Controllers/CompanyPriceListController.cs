@@ -3,7 +3,9 @@ using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
 using InvoiceVerificationApi.DataAccess;
 using InvoiceVerificationApi.dtos;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceVerificationApi.Controllers
@@ -58,9 +60,30 @@ namespace InvoiceVerificationApi.Controllers
             return Ok(response);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetCompanyPriceListResponse>> GetById(int id)
+        public async Task<ActionResult<CompanyPriceUpdateDto>> GetById(int id)
         {
-            var companyPrice = await context.CompanyPriceLists.FindAsync(id);
+            var companyPrice = await context.PriceListMappings
+                .Include(x => x.ArticleList)
+                .Include(x => x.CompanyList)
+                .Include(x => x.CompanyPriceList)
+                .AsNoTracking()
+                .Where(x => x.CompanyPriceList.Id == id)
+                .Select(x => new CompanyPriceUpdateDto
+                {
+                    Id = x.CompanyPriceList.Id,
+                    ArticleNo = x.ArticleList.ArticleNo,
+                    CompanyCode = x.CompanyList.CompanyCode,
+                    UnitPrice = x.CompanyPriceList.UnitPrice,
+                    Currency = x.CompanyPriceList.Currency.ToEnumString(),
+                    Description = x.CompanyPriceList.Description
+                })
+                .FirstOrDefaultAsync();
+
+            if (companyPrice == null)
+            {
+                return NotFound();
+            }
+
             return Ok(companyPrice);
         }
 
@@ -88,6 +111,19 @@ namespace InvoiceVerificationApi.Controllers
             await context.SaveChangesAsync();
 
             return Ok("Succesfull");
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> Patch(int id, JsonPatchDocument<CompanyPriceListEntity> jsonPatchDoc)
+        {
+            var companyPriceList = await context.CompanyPriceLists.FindAsync(id);
+            if (companyPriceList is null)
+            {
+                return NotFound();
+            }
+            jsonPatchDoc.ApplyTo(companyPriceList);
+            await context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
