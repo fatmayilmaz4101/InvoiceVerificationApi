@@ -1,9 +1,9 @@
-using System.Formats.Asn1;
 using InvoiceVerificationApi.BusinessLogic.Entity;
 using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
 using InvoiceVerificationApi.DataAccess;
 using InvoiceVerificationApi.dtos;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ namespace InvoiceVerificationApi.Controllers
         public async Task<ActionResult<GetArticleListResponse>> Get(int page, string? articleNo)
         {
             var totalCount = await context.ArticleLists.AsNoTracking().CountAsync();
-            var query = context.ArticleLists.AsNoTracking().AsQueryable();
+            var query = context.ArticleLists.AsNoTracking().OrderBy(c => c.Id).AsQueryable();
             if (articleNo is not null)
             {
                 query = query.Where(c => EF.Functions.Like(c.ArticleNo, $"%{articleNo}%"));
@@ -77,37 +77,19 @@ namespace InvoiceVerificationApi.Controllers
                 return Ok("Succesfull");
             }
         }
-
-
-
-        
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch(int id, [FromBody] PutArticleListRequest updatedArticle)
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<ArticleListEntity> jsonPatchDoc)
         {
-            var article = await context.ArticleLists.FindAsync(id);
-            if (updatedArticle is not null && article is not null)
+            var articleList = await context.ArticleLists.FindAsync(id);
+            if (articleList is null)
             {
-                if (updatedArticle.ArticleNo is not null && updatedArticle.ArticleNo != "" && updatedArticle.ArticleNo != "string")
-                { article.ArticleNo = updatedArticle.ArticleNo; }
-                if (updatedArticle.ArticleName is not null && updatedArticle.ArticleName != "" && updatedArticle.ArticleName != "string")
-                { article.ArticleName = updatedArticle.ArticleName; }
-                if (updatedArticle.Unit is not null && updatedArticle.Unit != 0)
-                { article.Unit = (Enums.Unit)updatedArticle.Unit; }
-                if (updatedArticle.MinPrice.HasValue && updatedArticle.MinPrice != 0)
-                { article.MinPrice = updatedArticle.MinPrice.Value; }
-                if (updatedArticle.MaxPrice.HasValue && updatedArticle.MaxPrice != 0)
-                { article.MaxPrice = updatedArticle.MaxPrice.Value; }
-                if (updatedArticle.Cost.HasValue && updatedArticle.Cost != 0)
-                { article.Cost = updatedArticle.Cost.Value; }
-                if (updatedArticle.Description is not null && updatedArticle.Description != "" && updatedArticle.Description != "string")
-                { article.Description = updatedArticle.Description; }
+                return NotFound();
             }
-            else
-            {
-                return BadRequest("Invalid data or article not found.");
-            }
+            jsonPatchDoc.ApplyTo(articleList);
             await context.SaveChangesAsync();
-            return Ok("Update successful.");
+            return NoContent();
         }
+
+
     }
 }

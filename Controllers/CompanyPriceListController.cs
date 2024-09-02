@@ -5,7 +5,6 @@ using InvoiceVerificationApi.DataAccess;
 using InvoiceVerificationApi.dtos;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceVerificationApi.Controllers
@@ -23,6 +22,7 @@ namespace InvoiceVerificationApi.Controllers
             .Include(x => x.ArticleList)
             .Include(x => x.CompanyPriceList)
                 .AsNoTracking()
+                .OrderBy(c => c.Id)
                 .Skip((page - 1) * 10)
                 .Take(10)
                 .ToListAsync();
@@ -113,8 +113,8 @@ namespace InvoiceVerificationApi.Controllers
             return Ok("Succesfull");
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> Patch(int id, JsonPatchDocument<CompanyPriceListEntity> jsonPatchDoc)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<CompanyPriceListEntity> jsonPatchDoc)
         {
             var companyPriceList = await context.CompanyPriceLists.FindAsync(id);
             if (companyPriceList is null)

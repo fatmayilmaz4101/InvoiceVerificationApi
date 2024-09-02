@@ -3,6 +3,7 @@ using InvoiceVerificationApi.Contract.Request;
 using InvoiceVerificationApi.Contract.Response;
 using InvoiceVerificationApi.DataAccess;
 using InvoiceVerificationApi.dtos;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace InvoiceVerificationApi.Controllers
         public async Task<ActionResult<GetCompanyListResponse>> Get(int page, string? companyCode)
         {
             var totalCount = await context.CompanyLists.AsNoTracking().CountAsync();
-            var query = context.CompanyLists.AsNoTracking().AsQueryable();
+            var query = context.CompanyLists.AsNoTracking().OrderBy(c => c.Id).AsQueryable();
             if (companyCode is not null)
             {
                 query = query.Where(c => EF.Functions.Like(c.CompanyCode, $"%{companyCode}%"));
@@ -69,7 +70,18 @@ namespace InvoiceVerificationApi.Controllers
                 return Ok("Succesfull");
             }
         }
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<CompanyListEntity> jsonPatchDoc)
+        {
+            var companyList = await context.CompanyLists.FindAsync(id);
+            if (companyList is null)
+            {
+                return NotFound();
+            }
+            jsonPatchDoc.ApplyTo(companyList);
+            await context.SaveChangesAsync();
+            return NoContent();
+        }
 
-        
     }
 }
