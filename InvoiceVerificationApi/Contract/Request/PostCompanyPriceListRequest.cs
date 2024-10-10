@@ -12,7 +12,7 @@ namespace InvoiceVerificationApi.Contract.Request
         public double UnitPrice { get; set; }
         public Currency Currency { get; set; }
         public string? Description { get; set; }
-        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
         public CompanyListDto? CompanyList { get; set; }
         public ArticleListDto? ArticleList { get; set; }

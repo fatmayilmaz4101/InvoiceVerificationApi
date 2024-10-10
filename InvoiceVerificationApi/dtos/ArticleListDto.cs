@@ -9,8 +9,8 @@ namespace InvoiceVerificationApi.dtos
         public double MinPrice { get; set; }
         public double MaxPrice { get; set; }
         public double Cost { get; set; }
-        public string? Description { get; set; }  // Yeni alan
-        public DateTime? CreatedDate { get; set; }  // Yeni alan
+        public string? Description { get; set; }
+        public DateTime CreatedDate { get; set; }
 
 
     }

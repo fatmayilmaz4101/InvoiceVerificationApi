@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceVerificationApi", "InvoiceVerificationApi.csproj", "{4A955557-13B5-4A38-AB92-95CD8ADCB877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceVerificationApi", "InvoiceVerificationApi/InvoiceVerificationApi.csproj", "{C592CEDB-758D-43E9-9096-D67EED3421D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A955557-13B5-4A38-AB92-95CD8ADCB877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A955557-13B5-4A38-AB92-95CD8ADCB877}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A955557-13B5-4A38-AB92-95CD8ADCB877}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A955557-13B5-4A38-AB92-95CD8ADCB877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C592CEDB-758D-43E9-9096-D67EED3421D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C592CEDB-758D-43E9-9096-D67EED3421D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C592CEDB-758D-43E9-9096-D67EED3421D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C592CEDB-758D-43E9-9096-D67EED3421D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

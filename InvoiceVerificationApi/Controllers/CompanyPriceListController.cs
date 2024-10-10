@@ -49,6 +49,7 @@ namespace InvoiceVerificationApi.Controllers
                 {
                     UnitPrice = x.CompanyPriceList.UnitPrice,
                     Currency = x.CompanyPriceList.Currency.ToEnumString(),
+                    CreatedDate = x.CompanyPriceList.CreatedDate,
                     Description = x.CompanyPriceList.Description
                 }
             }).ToList();

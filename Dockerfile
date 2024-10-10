@@ -1,28 +1,25 @@
-# 1. Aşama: Build Aşaması
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Çalışma dizinini oluştur ve belirle
+# Çalışma dizinini ayarla
 WORKDIR /source
 
-# Proje dosyalarını kopyala ve bağımlılıkları geri yükle
-COPY *.sln .
-COPY src/ProjectName/*.csproj ./src/ProjectName/
-RUN dotnet restore
-
-# Tüm proje dosyalarını kopyala
+# Tüm dosyaları kopyala
 COPY . .
 
-# Uygulamayı yayınlamak (publish) için build et
-RUN dotnet publish -c Release -o /app --no-restore
+# Restore işlemi
+RUN dotnet restore "InvoiceVerificationApi/InvoiceVerificationApi.csproj"
 
-# 2. Aşama: Çalışma Aşaması
+# Build ve publish işlemi
+RUN dotnet publish "InvoiceVerificationApi/InvoiceVerificationApi.csproj" -c Release -o /app --no-restore
+
+# Runtime imajı oluştur
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
-# Çalışma dizinini belirle
+# Çalışma dizinini ayarla
 WORKDIR /app
 
 # Yayınlanan dosyaları kopyala
 COPY --from=build /app .
 
 # Uygulamayı başlat
-ENTRYPOINT ["dotnet", "ProjectName.dll"]
+ENTRYPOINT ["dotnet", "InvoiceVerificationApi.dll"]

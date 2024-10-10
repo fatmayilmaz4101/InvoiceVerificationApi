@@ -9,7 +9,7 @@ namespace InvoiceVerificationApi.dtos
         public int PaymentTerm { get; set; }
         public string? InvoiceCurrency { get; set; }
         public string? Description { get; set; }
-        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; }
 
 
     }

@@ -42,13 +42,18 @@ namespace InvoiceVerificationApi.Controllers
                             {
                                 CompanyCode = string.Empty,
                                 CompanyName = string.Empty,
+                                CreatedDate = DateTime.UtcNow
                             },
                             ArticleList = new ArticleListEntity()
                             {
                                 ArticleNo = string.Empty,
-                                ArticleName = string.Empty
+                                ArticleName = string.Empty,
+                                CreatedDate = DateTime.UtcNow
                             },
                             CompanyPriceList = new CompanyPriceListEntity()
+                            {
+                                CreatedDate = DateTime.UtcNow
+                            }
                         };
                         if (worksheet.Cells[row, 1].Value is string companyCode)
                         {

@@ -13,6 +13,6 @@ namespace InvoiceVerificationApi.Contract.Request
         public double MaxPrice { get; set; }
         public double Cost { get; set; }
         public string? Description { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
     };
 }

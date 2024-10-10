@@ -9,7 +9,7 @@ namespace InvoiceVerificationApi.Contract.Request
         public int PaymentTerm { get; set; }
         public InvoiceCurrency InvoiceCurrency { get; set; }
         public string? Description { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
     }
 }
