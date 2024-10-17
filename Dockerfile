@@ -20,6 +20,6 @@ WORKDIR /app
 
 # Yayınlanan dosyaları kopyala
 COPY --from=build /app .
-
+EXPOSE 4000
 # Uygulamayı başlat
 ENTRYPOINT ["dotnet", "InvoiceVerificationApi.dll"]
